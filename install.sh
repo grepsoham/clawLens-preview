@@ -116,8 +116,10 @@ curl -fsS --max-time 5 http://localhost:18789/health >/dev/null || \
 info "Preflight passed."
 
 # ── Fetch latest release ────────────────────────────────────────────────────
+# Use /releases (not /releases/latest) so prerelease tags are visible —
+# preview builds are marked --prerelease and would otherwise 404.
 info "Fetching latest release tag..."
-LATEST_TAG=$(curl -fsS "https://api.github.com/repos/${REPO}/releases/latest" | jq -r .tag_name)
+LATEST_TAG=$(curl -fsS "https://api.github.com/repos/${REPO}/releases" | jq -r '.[0].tag_name // empty')
 [[ -n "$LATEST_TAG" && "$LATEST_TAG" != "null" ]] || \
   abort "Could not fetch latest release from $REPO. Check your network and that a release has been published."
 
