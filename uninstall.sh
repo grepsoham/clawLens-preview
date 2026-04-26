@@ -80,7 +80,11 @@ jq empty "$OPENCLAW_CFG" 2>/dev/null || \
 
 jq --arg path "$HOME/.clawlens" '
   .plugins.load.paths = ((.plugins.load.paths // []) | map(select(. != $path)))
-  | del(.plugins.entries.clawlens)
+  | if (.plugins.entries | type) == "array" then
+      .plugins.entries = ((.plugins.entries // []) | map(select(.key != "clawlens")))
+    else
+      del(.plugins.entries.clawlens)
+    end
 ' "$OPENCLAW_CFG" > "$TMP_CFG"
 
 if jq empty "$TMP_CFG" 2>/dev/null; then

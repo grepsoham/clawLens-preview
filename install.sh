@@ -92,12 +92,39 @@ jq empty "$OPENCLAW_CFG" 2>/dev/null || \
   abort "$OPENCLAW_CFG contains JSON5 features (comments, trailing commas) that this installer cannot safely edit with jq. Convert to strict JSON manually or reach out for help, then re-run."
 
 # Bonjour preempt — abort with the exact disable command (option (c) of plan)
-bonjour_state=$(jq -r '.plugins.entries.bonjour.enabled // "absent"' "$OPENCLAW_CFG")
+# OpenClaw's plugins.entries schema is polymorphic — an object keyed by
+# plugin id on some installs, an array of {key, enabled, ...} objects on
+# others. Detect form, then coerce enabled to string BEFORE falling back —
+# `false // "absent"` fires on false (a falsy value in jq's // semantics),
+# which would mask the very state we're checking for.
+bonjour_state=$(jq -r '
+  if (.plugins.entries | type) == "object" then
+    if (.plugins.entries | has("bonjour")) then
+      (.plugins.entries.bonjour.enabled | tostring)
+    else "absent" end
+  elif (.plugins.entries | type) == "array" then
+    [.plugins.entries[] | select(.key == "bonjour") | .enabled] as $e
+    | if ($e | length) == 0 then "absent" else ($e[0] | tostring) end
+  else
+    "absent"
+  end
+' "$OPENCLAW_CFG")
+
 if [[ "$bonjour_state" != "false" ]]; then
+  # Build the disable command for whichever form is in use
+  entries_form=$(jq -r '.plugins.entries | type' "$OPENCLAW_CFG")
+  if [[ "$entries_form" == "array" ]]; then
+    DISABLE_RECIPE='jq '\''.plugins.entries = (
+  ((.plugins.entries // []) | map(select(.key != "bonjour")))
+  + [{"key":"bonjour","enabled":false}]
+)'\'''
+  else
+    DISABLE_RECIPE='jq '\''.plugins.entries.bonjour = {enabled: false}'\'''
+  fi
   cat >&2 <<EOF
 ${C_RED}✗${C_RESET} OpenClaw 2026.4.x has a known bonjour crashloop bug (mDNS announce throws "CIAO ANNOUNCEMENT CANCELLED", putting the gateway into a ~22s restart loop). To proceed safely, disable bonjour first:
 
-  jq '.plugins.entries.bonjour = {enabled: false}' "$OPENCLAW_CFG" > /tmp/openclaw.json.new \\
+  ${DISABLE_RECIPE} "$OPENCLAW_CFG" > /tmp/openclaw.json.new \\
     && mv /tmp/openclaw.json.new "$OPENCLAW_CFG" \\
     && chmod 600 "$OPENCLAW_CFG" \\
     && launchctl kickstart -k gui/\$(id -u)/${GATEWAY_LABEL}
@@ -175,7 +202,14 @@ trap "rm -f '$TMP_CFG'" EXIT INT TERM
 
 jq --arg path "$INSTALL_BASE" '
   .plugins.load.paths = (((.plugins.load.paths // []) + [$path]) | unique)
-  | .plugins.entries.clawlens = ((.plugins.entries.clawlens // {}) + {enabled: true})
+  | if (.plugins.entries | type) == "array" then
+      .plugins.entries = (
+        ((.plugins.entries // []) | map(select(.key != "clawlens")))
+        + [{"key": "clawlens", "enabled": true}]
+      )
+    else
+      .plugins.entries.clawlens = ((.plugins.entries.clawlens // {}) + {enabled: true})
+    end
 ' "$OPENCLAW_CFG" > "$TMP_CFG"
 
 jq empty "$TMP_CFG" 2>/dev/null || \
