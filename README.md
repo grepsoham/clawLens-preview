@@ -2,8 +2,6 @@
 
 ClawLens is an [OpenClaw](https://openclaw.ai/) plugin that watches every tool call your agents make, scores each one for risk, and surfaces what should worry you in a local dashboard. This repo hosts preview builds for selected users; the source is maintained separately.
 
-You're seeing this because someone gave you the link directly. We're not advertising the preview broadly yet — feedback from a small group is shaping what ships next.
-
 ## What you get
 
 - **Dashboard** at `http://localhost:18789/plugins/clawlens/` — agents, sessions, recent activity, risk scores
@@ -16,29 +14,33 @@ Everything runs locally. No data leaves your machine.
 ## Requirements
 
 - macOS or Linux
-- OpenClaw gateway already installed and running (verified on `2026.5.x`; should work on `2026.4.x` — both branches share the same plugin contract)
+- OpenClaw gateway already installed and running (verified on `2026.5.x`; expected to work on `2026.4.x` — both branches share the same plugin contract)
 - `node` 22+, `npm`, `curl`, `jq`, `tar` on your `PATH`
 - No GitHub authentication required — the install URL and tarball assets are publicly readable
 
 ## Read before installing
 
-- **Bonjour crashloop**: some OpenClaw releases ship with a bonjour plugin that has a known crash bug. The installer aborts with an explicit fix command if bonjour isn't already disabled in your `openclaw.json`. Disable it once and you're good.
+- **Bonjour crashloop**: OpenClaw's bundled `bonjour` plugin (mDNS network announce) can throw an unhandled promise rejection that puts the gateway into a ~22-second restart loop. The installer detects this precondition and aborts with the exact disable command before touching anything. If your gateway already has `plugins.entries.bonjour.enabled: false`, you're already past this.
 
 ## Install
+
+**One command:**
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/grepsoham/clawLens-preview/main/install.sh | bash
 ```
 
-Typically completes in 10–30 seconds depending on your network and `npm` cache state. If you'd like to read the script before running it (recommended for any `curl | bash` install):
+Typically completes in 10–30 seconds depending on your network and `npm` cache state.
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/grepsoham/clawLens-preview/main/install.sh -o /tmp/clawlens-install.sh
-less /tmp/clawlens-install.sh
-bash /tmp/clawlens-install.sh
-```
+What the installer does:
 
-The installer preflights every requirement, downloads + verifies the SHA-256 of the latest tarball, installs to `~/.clawlens-<version>/`, atomically registers the plugin in your `openclaw.json` (with a timestamped backup of the original), restarts the gateway, and polls `/plugins/clawlens/api/health` until ready. It aborts before any system change if anything is off — every error message includes the exact remediation command.
+- **Preflights every requirement** — `node` 22+, `npm`, `curl`, `tar`, `jq`, `openclaw.json` exists and is strict-JSON, gateway running and responsive, bonjour explicitly disabled
+- **Downloads + verifies SHA-256** — aborts before any system change if the checksum doesn't match
+- **Extracts to `~/.clawlens-<version>/`** and points `~/.clawlens` at it via an atomic symlink swap
+- **Backs up `~/.openclaw/openclaw.json`** with a timestamped suffix before any edit
+- **Atomically registers the plugin** — `jq` produces a new file, `mv` swaps it in, perms restored to `0600`
+- **Restarts the gateway** and polls `/plugins/clawlens/api/health` until ready (up to 30 s)
+- **Aborts loudly with rollback instructions** if anything goes wrong — every error message includes the exact command to fix it
 
 ### Expected install output
 
@@ -82,11 +84,18 @@ Expected JSON: `{"valid":true,"totalEntries":N,"lastEntryTimestamp":"..."}`. The
 
 ## Uninstall
 
+**One command:**
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/grepsoham/clawLens-preview/main/uninstall.sh | bash
 ```
 
-Restores `openclaw.json` from the most recent installer-created backup, surgically removes any remaining ClawLens entries, deletes the `~/.clawlens` symlink and `~/.clawlens-*` install dirs, and restarts the gateway.
+What the uninstaller does:
+
+- **Restores `openclaw.json`** from the most recent installer-created backup
+- **Surgically removes any remaining ClawLens entries** in case the backup is missing or partial
+- **Deletes the `~/.clawlens` symlink and all `~/.clawlens-*` install dirs**
+- **Restarts the gateway** and verifies `/plugins/clawlens/` returns `404`
 
 **Audit log at `~/.openclaw/clawlens/audit.jsonl` is preserved** — uninstall + reinstall is non-destructive; if you reinstall later, the next session picks up where you left off. Delete the audit log manually if you want it gone.
 
