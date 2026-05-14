@@ -16,9 +16,9 @@
 </p>
 
 <p align="center">
-  <a href="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-homepage.png" target="_self">
-    <img src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-homepage.png" alt="ClawLens Dashboard" width="900">
-  </a>
+  <video src="https://github.com/user-attachments/assets/860bc67c-c91b-442e-b43f-7c7a44eefb64" poster="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-homepage.png" controls width="900">
+    Your browser does not support inline video. <a href="https://github.com/user-attachments/assets/860bc67c-c91b-442e-b43f-7c7a44eefb64">Download the demo</a>.
+  </video>
 </p>
 
 - **Observe.** Every tool call lands in an append-only, hash-chained audit log at `~/.openclaw/clawlens/audit.jsonl`. No after-the-fact tampering.
@@ -27,18 +27,6 @@
 - **Guardrail.** Block, require-approval, or allow-notify rules created from observed behavior. Require-approval guardrails use OpenClaw's configured approval flow.
 
 ClawLens stores its audit log on your machine and serves its dashboard on localhost by default.
-
----
-
-## See it in action
-
-<p align="center">
-  <video src="https://github.com/user-attachments/assets/860bc67c-c91b-442e-b43f-7c7a44eefb64" controls width="900">
-    Your browser does not support inline video. <a href="https://github.com/user-attachments/assets/860bc67c-c91b-442e-b43f-7c7a44eefb64">Download the demo</a>.
-  </video>
-</p>
-
-A 2-minute silent walkthrough of ClawLens observing an agent in real time. Risk scores fire, a guardrail intercepts a dangerous action, and the operator approves from their phone.
 
 ---
 
@@ -158,13 +146,24 @@ All settings live under `plugins.entries.clawlens.config` in `~/.openclaw/opencl
 
 ## Score every command, with reasoning
 
-<p align="center">
-  <a href="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-agent-close.png" target="_self">
-    <img src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-agent-close.png" alt="Risk score with AI assessment for a single tool call" width="900">
-  </a>
-</p>
+<table>
+<tr>
+<td width="55%" valign="top">
 
 Every tool call gets a risk score the moment it runs. A shell `rm -rf`. An MCP write to production. An agent editing its own config. Each one surfaces immediately with the score, the reasoning, and an AI assessment when the call is ambiguous enough to need a second opinion. Patterns like remote access, repeated attempts, and model manipulation get tagged so you spot them at a glance.
+
+</td>
+<td width="45%" valign="top">
+
+<a href="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-agent-close.png" target="_self">
+  <img src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-agent-close.png" alt="Risk score with AI assessment for a single tool call" width="100%">
+</a>
+
+</td>
+</tr>
+</table>
+
+Need a recap of what an agent has been doing? Plain-English session and agent summaries are one click away. No scrolling through 400 tool calls.
 
 <p align="center">
   <a href="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-session-close.png" target="_self">
@@ -172,27 +171,34 @@ Every tool call gets a risk score the moment it runs. A shell `rm -rf`. An MCP w
   </a>
 </p>
 
-Need a recap of what an agent has been doing? Plain-English session and agent summaries are one click away. No scrolling through 400 tool calls.
-
 ---
 
 ## Set guardrails. Watch them fire.
 
-<p align="center">
-  <a href="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-guardrail-add-close.png" target="_self">
-    <img src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-guardrail-add-close.png" alt="Add guardrail modal: match type, three actions, and scope" width="900">
-  </a>
-</p>
+<table>
+<tr>
+<td width="55%" valign="top">
 
 Three actions: **Block**, **Require Approval**, or **Allow with Notification**. Match an exact command, a broader pattern, or anything in between. Scope to one agent or the whole fleet. Require-approval guardrails use OpenClaw's configured approval flow. If your OpenClaw approvals are routed to Telegram or another external channel, the approval prompt may be delivered there.
+
+</td>
+<td width="45%" valign="top">
+
+<a href="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-guardrail-add-close.png" target="_self">
+  <img src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-guardrail-add-close.png" alt="Add guardrail modal: match type, three actions, and scope" width="100%">
+</a>
+
+</td>
+</tr>
+</table>
+
+The guardrails page shows what's live, what's been triggered, and what's pending your approval. The moment your agent hits a rule, you see the attempt count tick and the pending request show up.
 
 <p align="center">
   <a href="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-guardrail-fired-close.png" target="_self">
     <img src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-guardrail-fired-close.png" alt="A live guardrail showing hits, activity, and a pending approval" width="900">
   </a>
 </p>
-
-The guardrails page shows what's live, what's been triggered, and what's pending your approval. The moment your agent hits a rule, you see the attempt count tick and the pending request show up.
 
 ---
 
