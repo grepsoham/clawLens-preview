@@ -38,6 +38,16 @@ Testing whether raw URLs render correctly on github.com README + are anonymously
   </a>
 </p>
 
+## Test D: Image with explicit `target="_self"` anchor (force same-tab on click?)
+
+<p align="center">
+  <a href="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-agent-close.png" target="_self">
+    <img src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-agent-close.png" alt="Click for same-tab navigation" width="400">
+  </a>
+</p>
+
+Click Test D's image. If it navigates **in the same tab** (replacing this page), GitHub respects `target="_self"`. If it still opens a new tab, GitHub overrides the attribute.
+
 ## Mermaid (native fenced block)
 
 ```mermaid
