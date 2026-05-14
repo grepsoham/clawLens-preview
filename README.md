@@ -16,7 +16,13 @@
 </p>
 
 <p align="center">
-  <video src="https://github.com/user-attachments/assets/860bc67c-c91b-442e-b43f-7c7a44eefb64" poster="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-homepage.png" controls width="900">
+  <a href="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-homepage.png" target="_self">
+    <img src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-homepage.png" alt="ClawLens Dashboard" width="900">
+  </a>
+</p>
+
+<p align="center">
+  <video src="https://github.com/user-attachments/assets/860bc67c-c91b-442e-b43f-7c7a44eefb64" controls width="900">
     Your browser does not support inline video. <a href="https://github.com/user-attachments/assets/860bc67c-c91b-442e-b43f-7c7a44eefb64">Download the demo</a>.
   </video>
 </p>
