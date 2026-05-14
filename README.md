@@ -14,12 +14,28 @@ Testing whether raw URLs render correctly on github.com README + are anonymously
   <img src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/architecture.svg" alt="ClawLens architecture" width="800">
 </p>
 
-## MP4 video (compressed demo)
+## MP4 video — Test A: `<video>` with raw URL
 
 <p align="center">
   <video src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-demo.mp4" controls width="800">
     Your browser does not support inline video. <a href="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-demo.mp4">Download the demo</a>.
   </video>
+</p>
+
+## MP4 video — Test B: `<video>` with user-attachments URL (known-working)
+
+<p align="center">
+  <video src="https://github.com/user-attachments/assets/860bc67c-c91b-442e-b43f-7c7a44eefb64" controls width="800">
+    Your browser does not support inline video. <a href="https://github.com/user-attachments/assets/860bc67c-c91b-442e-b43f-7c7a44eefb64">Download the demo</a>.
+  </video>
+</p>
+
+## MP4 video — Test C: thumbnail link to raw MP4 (universal fallback)
+
+<p align="center">
+  <a href="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-demo.mp4">
+    <img src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-agent-close.png" alt="Click to watch demo" width="600">
+  </a>
 </p>
 
 ## Mermaid (native fenced block)
