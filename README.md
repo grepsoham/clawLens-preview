@@ -152,11 +152,13 @@ All settings live under `plugins.entries.clawlens.config` in `~/.openclaw/opencl
 
 ## Score every command, with reasoning
 
-<a href="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-agent-close.png" target="_self"><img src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-agent-close.png" alt="Risk score with AI assessment for a single tool call" align="right" width="380"></a>
-
 Every tool call gets a risk score the moment it runs. A shell `rm -rf`. An MCP write to production. An agent editing its own config. Each one surfaces immediately with the score, the reasoning, and an AI assessment when the call is ambiguous enough to need a second opinion. Patterns like remote access, repeated attempts, and model manipulation get tagged so you spot them at a glance.
 
-<br clear="all">
+<p align="center">
+  <a href="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-agent-close.png" target="_self">
+    <img src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-agent-close.png" alt="Risk score with AI assessment for a single tool call" width="550">
+  </a>
+</p>
 
 Need a recap of what an agent has been doing? Plain-English session and agent summaries are one click away. No scrolling through 400 tool calls.
 
@@ -170,11 +172,13 @@ Need a recap of what an agent has been doing? Plain-English session and agent su
 
 ## Set guardrails. Watch them fire.
 
-<a href="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-guardrail-add-close.png" target="_self"><img src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-guardrail-add-close.png" alt="Add guardrail modal: match type, three actions, and scope" align="right" width="380"></a>
-
 Three actions: **Block**, **Require Approval**, or **Allow with Notification**. Match an exact command, a broader pattern, or anything in between. Scope to one agent or the whole fleet. Require-approval guardrails use OpenClaw's configured approval flow. If your OpenClaw approvals are routed to Telegram or another external channel, the approval prompt may be delivered there.
 
-<br clear="all">
+<p align="center">
+  <a href="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-guardrail-add-close.png" target="_self">
+    <img src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-guardrail-add-close.png" alt="Add guardrail modal: match type, three actions, and scope" width="550">
+  </a>
+</p>
 
 The guardrails page shows what's live, what's been triggered, and what's pending your approval. The moment your agent hits a rule, you see the attempt count tick and the pending request show up.
 
