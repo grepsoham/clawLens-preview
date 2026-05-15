@@ -21,7 +21,7 @@ Use it when your agents can run shell commands, edit files, call external APIs, 
 
 <p align="center">
   <a href="https://youtu.be/AKzhw5GWw5I">
-    <img src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-product-demo-poster.jpg" alt="Watch the ClawLens product demo" width="900">
+    <img src="https://raw.githubusercontent.com/grepsoham/clawLens-preview/test/raw-url-verification/docs/assets/clawlens-thumbnail.png" alt="Watch the ClawLens product demo" width="900">
   </a><br>
   <sub><a href="https://youtu.be/AKzhw5GWw5I">Watch the 2-minute product demo</a></sub>
 </p>
